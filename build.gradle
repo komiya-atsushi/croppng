@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+group 'me.k11i'
+version '0.1-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
