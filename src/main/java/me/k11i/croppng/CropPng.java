@@ -147,13 +147,13 @@ public final class CropPng {
      *
      * // Write to file
      * try (var out = new FileOutputStream("path/to/output.png")) {
-     *     out.write(buf.array(), buf.arrayOffset(), buf.limit());
+     *     out.write(buf.array(), buf.arrayOffset(), buf.limit() - buf.arrayOffset());
      * }
      * </pre>
      *
      * @param src         byte data of the source PNG image.
-     * @param x           x coordinate of the top-left corner of the rectangle to be extracted.
-     * @param y           y coordinate of the top-left corner of the rectangle to be extracted.
+     * @param x           x coordinate of the upper-left corner of the rectangle to be extracted.
+     * @param y           y coordinate of the upper-left corner of the rectangle to be extracted.
      * @param width       width of the rectangle to be extracted.
      * @param height      height of the rectangle to be extracted.
      * @param scaleFactor magnification factor (must be > 0).
