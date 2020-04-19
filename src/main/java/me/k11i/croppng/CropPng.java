@@ -1,7 +1,10 @@
 package me.k11i.croppng;
 
+import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.util.Objects;
+import java.util.function.IntFunction;
+import java.util.stream.IntStream;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
@@ -44,8 +47,54 @@ public final class CropPng {
         }
     }
 
+    /**
+     * Array of {@link ThreadLocal}s that hold {@link SoftReference} to {@code CropPng} instance for each compression level.
+     * <p>
+     * This mechanism can avoid costly instantiations of {@link Deflater} class and {@link Inflater} class
+     * when {@link #defaultLevel()} (or {@link #compressionLevel(int)}) is called.
+     * </p>
+     */
+    private static final ThreadLocal<SoftReference<CropPng>>[] INSTANCES = IntStream.rangeClosed(0, 9)
+            .mapToObj(level -> ThreadLocal.withInitial(() -> new SoftReference<>(new CropPng(level))))
+            .toArray((IntFunction<ThreadLocal<SoftReference<CropPng>>[]>) ThreadLocal[]::new);
+
     private final Deflater deflater;
     private final Inflater inflater;
+
+    /**
+     * Constructs a new object or reuse previously constructed object that is cached in {@link ThreadLocal}/{@link SoftReference}.
+     *
+     * <p>
+     * Example:
+     * </p>
+     *
+     * <pre>
+     * ByteBuffer buf = CropPng.defaultLevel().crop(src, x, y, width, height, scaleFactor);
+     * </pre>
+     *
+     * @see #INSTANCES
+     */
+    public static CropPng defaultLevel() {
+        return compressionLevel(6);
+    }
+
+    /**
+     * Constructs a new object with compression level or reuse previously constructed object that is cached in {@link ThreadLocal}/{@link SoftReference}.
+     *
+     * @see #INSTANCES
+     */
+    public static CropPng compressionLevel(int level) {
+        SoftReference<CropPng> ref = INSTANCES[level].get();
+        CropPng instance = (ref == null) ? null : ref.get();
+
+        if (instance == null) {
+            instance = new CropPng(level);
+            ref = new SoftReference<>(instance);
+            INSTANCES[level].set(ref);
+        }
+
+        return instance;
+    }
 
     /**
      * Constructs an object with default Deflate settings.
