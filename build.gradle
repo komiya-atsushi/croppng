@@ -1,10 +1,12 @@
 plugins {
     id 'java'
+    id 'maven-publish'
     id 'me.champeau.gradle.jmh' version '0.5.0'
+    id 'net.researchgate.release' version '2.8.1'
+    id 'com.jfrog.bintray' version '1.8.5'
 }
 
 group 'me.k11i'
-version '0.1-SNAPSHOT'
 
 sourceCompatibility = 11
 
@@ -45,4 +47,67 @@ jmh {
     humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt")
     timeUnit = 's'
     resultFormat = 'CSV'
+}
+
+javadoc {
+    options.locale = 'en_US'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+release {
+    preTagCommitMessage = '[skip ci] [Gradle Release Plugin] - pre tag commit: '
+    newVersionCommitMessage = '[skip ci] [Gradle Release Plugin] - new version commit: '
+
+    git {
+        requireBranch = 'master'
+    }
+}
+
+afterReleaseBuild.dependsOn(bintrayUpload)
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['mavenJava']
+
+    pkg {
+        repo = 'maven'
+        name = 'croppng'
+        userOrg = 'komiya-atsushi'
+        licenses = ['MIT']
+
+        websiteUrl = 'https://github.com/komiya-atsushi/croppng'
+        issueTrackerUrl = 'https://github.com/komiya-atsushi/croppng/issues'
+        vcsUrl = 'https://github.com/komiya-atsushi/croppng.git'
+
+        version {
+            name = project.version
+            desc = 'Fast PNG cropping and resizing (upscaling) library'
+        }
+    }
 }
