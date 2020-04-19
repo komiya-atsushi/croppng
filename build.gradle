@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'me.champeau.gradle.jmh' version '0.5.0'
 }
 
 group 'me.k11i'
@@ -36,4 +37,12 @@ test {
                     "${result.skippedTestCount} skipped"
         }
     }
+}
+
+jmh {
+    jmhVersion = '1.23'
+    fork = 5
+    humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt")
+    timeUnit = 's'
+    resultFormat = 'CSV'
 }
