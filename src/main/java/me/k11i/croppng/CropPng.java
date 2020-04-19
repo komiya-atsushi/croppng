@@ -54,6 +54,7 @@ public final class CropPng {
      * when {@link #defaultLevel()} (or {@link #compressionLevel(int)}) is called.
      * </p>
      */
+    @SuppressWarnings("unchecked")
     private static final ThreadLocal<SoftReference<CropPng>>[] INSTANCES = IntStream.rangeClosed(0, 9)
             .mapToObj(level -> ThreadLocal.withInitial(() -> new SoftReference<>(new CropPng(level))))
             .toArray((IntFunction<ThreadLocal<SoftReference<CropPng>>[]>) ThreadLocal[]::new);
