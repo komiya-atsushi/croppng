@@ -9,7 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class JavaIoImageCrop {
+public class JavaAwtImageCrop {
     public static byte[] crop(byte[] src, int x, int y, int srcWidth, int srcHeight, int scaleFactor) {
         int dstWidth = srcWidth * scaleFactor;
         int dstHeight = srcHeight * scaleFactor;

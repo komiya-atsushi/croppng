@@ -1,7 +1,7 @@
 package me.k11i.croppng;
 
 import me.k11i.croppng.test.helper.CropParam;
-import me.k11i.croppng.test.helper.JavaIoImageCrop;
+import me.k11i.croppng.test.helper.JavaAwtImageCrop;
 import me.k11i.croppng.test.helper.TestImage;
 import org.openjdk.jmh.annotations.*;
 
@@ -70,7 +70,7 @@ public class CropPngBenchmark {
     }
 
     @Benchmark
-    public byte[] javaIoImage(BenchmarkContext ctx) {
-        return JavaIoImageCrop.crop(ctx.src, ctx.x, ctx.y, ctx.width, ctx.height, ctx.scaleFactor);
+    public byte[] javaAwtImage(BenchmarkContext ctx) {
+        return JavaAwtImageCrop.crop(ctx.src, ctx.x, ctx.y, ctx.width, ctx.height, ctx.scaleFactor);
     }
 }

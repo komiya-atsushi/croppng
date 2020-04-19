@@ -2,7 +2,7 @@ package me.k11i.croppng;
 
 import ar.com.hjg.pngj.PngReaderByte;
 import me.k11i.croppng.test.helper.CropParam;
-import me.k11i.croppng.test.helper.JavaIoImageCrop;
+import me.k11i.croppng.test.helper.JavaAwtImageCrop;
 import me.k11i.croppng.test.helper.TestImage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,7 +32,7 @@ class CropPngTest {
         CropPng sut = new CropPng();
 
         for (int i = 0; i < TEST_IMAGE_BYTES.length; i++) {
-            var expected = JavaIoImageCrop.crop(TEST_IMAGE_BYTES[i], param.x, param.y, param.width, param.height, param.scaleFactor);
+            var expected = JavaAwtImageCrop.crop(TEST_IMAGE_BYTES[i], param.x, param.y, param.width, param.height, param.scaleFactor);
             var result = sut.crop(TEST_IMAGE_BYTES[i], param.x, param.y, param.width, param.height, param.scaleFactor);
             var resultBytes = Arrays.copyOfRange(result.array(), result.arrayOffset(), result.limit());
 
