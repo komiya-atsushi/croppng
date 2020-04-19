@@ -84,6 +84,10 @@ public final class CropPng {
      * @see #INSTANCES
      */
     public static CropPng compressionLevel(int level) {
+        if (level < 0 || level > 9) {
+            throw new IllegalArgumentException("level must be between 0 and 9 but " + level);
+        }
+
         SoftReference<CropPng> ref = INSTANCES[level].get();
         CropPng instance = (ref == null) ? null : ref.get();
 
@@ -106,10 +110,14 @@ public final class CropPng {
     /**
      * Constructs an object with specified Deflate compression level.
      *
-     * @param level compression level of Deflate algorithm.
+     * @param level compression level of Deflate algorithm (0-9).
      */
     public CropPng(int level) {
-        this(new Deflater(level));
+        if (level < 0 || level > 9) {
+            throw new IllegalArgumentException("level must be between 0 and 9 but " + level);
+        }
+        this.deflater = new Deflater(level);
+        this.inflater = new Inflater();
     }
 
     /**
