@@ -1,6 +1,9 @@
 CropPNG
 =======
 
+[![CircleCI](https://circleci.com/gh/komiya-atsushi/croppng.svg?style=svg)](https://circleci.com/gh/komiya-atsushi/croppng)
+[![Download](https://api.bintray.com/packages/komiya-atsushi/maven/croppng/images/download.svg)](https://bintray.com/komiya-atsushi/maven/croppng/_latestVersion)
+
 Fast PNG cropping and resizing (upscaling) library.
 
 
