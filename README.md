@@ -45,7 +45,7 @@ If you are using Maven, you have to configure the additional repository in the `
     <dependency>
       <groupId>me.k11i</groupId>
       <artifactId>croppng</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.1</version>
     </dependency>
   </dependencies>
 </project>
@@ -64,7 +64,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'me.k11i:croppng:0.1.0'
+  implementation 'me.k11i:croppng:0.1.1'
 }
 ```
 
