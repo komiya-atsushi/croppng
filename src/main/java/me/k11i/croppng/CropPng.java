@@ -1,5 +1,7 @@
 package me.k11i.croppng;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.util.Objects;
@@ -75,7 +77,7 @@ public final class CropPng {
      *
      * @see #INSTANCES
      */
-    public static CropPng defaultLevel() {
+    public static @NotNull CropPng defaultLevel() {
         return compressionLevel(6);
     }
 
@@ -84,7 +86,7 @@ public final class CropPng {
      *
      * @see #INSTANCES
      */
-    public static CropPng compressionLevel(int level) {
+    public static @NotNull CropPng compressionLevel(int level) {
         if (level < 0 || level > 9) {
             throw new IllegalArgumentException("level must be between 0 and 9 but " + level);
         }
@@ -159,7 +161,7 @@ public final class CropPng {
      * @param scaleFactor magnification factor (must be > 0).
      * @return {@link ByteBuffer} object of PNG-encoded image.
      */
-    public ByteBuffer crop(byte[] src, int x, int y, int width, int height, int scaleFactor) {
+    public @NotNull ByteBuffer crop(@NotNull byte[] src, int x, int y, int width, int height, int scaleFactor) {
         return crop0(
                 src,
                 new Rectangle(x, y, width, height),
